@@ -16,7 +16,7 @@ void displayMenu(struct Produk produkDanHarga[], int jumlahProduk){
     printf("| No. |        Nama Barang        |      Harga      |\n");
     printf("-----------------------------------------------------\n");
     //print array produk dan harga
-        for(int i = 0; i < jumlahProduk; i++){
+        for(int i = 0; i < jumlahProduk; i++){ // DISINI JUGA LOOPING UNTUK MENAMPILKAN DAFTAR PRODUK
             printf("|  %-2d |    %-19s    | Rp.%-12.0f |\n", i + 1, produkDanHarga[i].produk, produkDanHarga[i].harga);
         }
      printf("=====================================================\n");
@@ -28,7 +28,7 @@ void displayMenu(struct Produk produkDanHarga[], int jumlahProduk){
 }
 
 //fungsi untuk mengurutkan data pesanan dari jumlah yang terbanyak
-void sortPesanan(struct Produk produkDanHarga[], int jumlahProduk, int jumlahBeli[]){
+void sortPesanan(struct Produk produkDanHarga[], int jumlahProduk, int jumlahBeli[]){ //INI TERMASUK BUBBLESORT UNTUK MENGURUTKAN PESANAN TERMASUK LOOPING JUGA
     for(int i = 0; i < jumlahProduk - 1; i++){
         for(int j = 0; j < jumlahProduk - i - 1; j++){
             if(jumlahBeli[j] < jumlahBeli[j + 1]){
@@ -108,7 +108,7 @@ int main()
 
     //menampilkan field pilihan
     while (1){
-        printf("\n\nMasukkan pilihan yang anda inginkan: ");
+        printf("\n\nMasukkan pilihan yang anda inginkan: "); // LOOPING UTAMA BISA DIBILANG INFINITI LOOPING KARENA MENGULANG TERUS MENERUS
         scanf("%d", &pilihan);
 
         //kondisi untuk memilih barang yang akan dibeli
@@ -136,7 +136,7 @@ int main()
             printf("| No. |  Jumlah  |    Nama Barang    |    Harga    | Total Harga |   Diskon  |\n");
             printf("------------------------------------------------------------------------------\n");
             //perulangan untuk rekap pesanan
-                for(int i = 0; i < jumlahProduk; i++){
+                for(int i = 0; i < jumlahProduk; i++){ // LOOPING  UNTUK MENAMPILKAN REKAP PEMESANAN
                     //menghitung total harga
                         totalHarga = produkDanHarga[i].harga * jumlahBeli[i];
 
@@ -214,7 +214,7 @@ int main()
             break;
 
         //opsi reset pilihan
-        } else if (pilihan == 55){
+        } else if (pilihan == 55){ // LOOP UNTUK MERESET PILIHAN
             for(int i = 0; i < jumlahProduk; i++){
                 pilihan = 0;
                 jumlahBeli[i] = 0;

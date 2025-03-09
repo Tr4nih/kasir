@@ -16,8 +16,8 @@ void displayMenu(struct Produk produkDanHarga[], int jumlahProduk){
     printf("| No. |        Nama Barang        |      Harga      |\n");
     printf("-----------------------------------------------------\n");
     //print array produk dan harga
-        for(int i = 0; i < jumlahProduk; i++){
-            printf("|  %-2d |    %-19s 4   | Rp.%-12.0f |\n", i + 1, produkDanHarga[i].produk, produkDanHarga[i].harga);
+        for(int i = 0; i < jumlahProduk; i++){ // DISINI JUGA LOOPING UNTUK MENAMPILKAN DAFTAR PRODUK
+            printf("|  %-2d |    %-19s    | Rp.%-12.0f |\n", i + 1, produkDanHarga[i].produk, produkDanHarga[i].harga);
         }
      printf("=====================================================\n");
      printf("\n  99. Struk Pembayaran");
@@ -28,19 +28,17 @@ void displayMenu(struct Produk produkDanHarga[], int jumlahProduk){
 }
 
 //fungsi untuk mengurutkan data pesanan dari jumlah yang terbanyak
-void sortPesanan(struct Produk produkDanHarga[], int jumlahProduk, int jumlahBeli[]) {
-    for (int i = 0; i < jumlahProduk - 1; i++) {
-        for (int j = 0; j < jumlahProduk - i - 1; j++) {
-            if (jumlahBeli[j] > jumlahBeli[j + 1]) { // Ubah kondisi dari "<" menjadi ">"
-                // Tukar jumlah beli
+void sortPesanan(struct Produk produkDanHarga[], int jumlahProduk, int jumlahBeli[]){ //INI TERMASUK BUBBLESORT UNTUK MENGURUTKAN PESANAN TERMASUK LOOPING JUGA
+    for(int i = 0; i < jumlahProduk - 1; i++){
+        for(int j = 0; j < jumlahProduk - i - 1; j++){
+            if(jumlahBeli[j] > jumlahBeli[j + 1]){
                 int tempQty = jumlahBeli[j];
-                jumlahBeli[j] = jumlahBeli[j + 1];
-                jumlahBeli[j + 1] = tempQty;
+                    jumlahBeli[j] = jumlahBeli[j + 1];
+                    jumlahBeli[j + 1] = tempQty;
 
-                // Tukar data produk
                 struct Produk temp = produkDanHarga[j];
-                produkDanHarga[j] = produkDanHarga[j + 1];
-                produkDanHarga[j + 1] = temp;
+                       produkDanHarga[j] = produkDanHarga[j + 1];
+                       produkDanHarga[j + 1] = temp;
             }
         }
     }
@@ -60,31 +58,32 @@ int generateStrukID(){
 
 int main()
 {
-    //array untuk produk dan harga
-    struct Produk produkDanHarga[]={  // UNTUK ARRAY MENYIMPAN DATA BARANG
-        {"Pulpen", 3000},
+    //array untuk produk dan harga    // ARRAY UNTUK MENYIMPAN DATA BARANG
+    struct Produk produkDanHarga[]={
+        {"Buku Tulis", 5000},
         {"Pensil", 2000},
         {"Penghapus", 1000},
-        {"Stempel", 4000},
+        {"Penggaris", 1000},
+        {"Bujur Sangkar", 500},
     };
 
     int jumlahProduk = sizeof(produkDanHarga)/sizeof(produkDanHarga[0]),
         jumlah,
-        jumlahBeli[4] = {0},
+        jumlahBeli[5] = {0},
         pilihan,
         strukID = generateStrukID(),
         no_barang = 0;
 
-    float hargaAkhir[4] = {0},
+    float hargaAkhir[5] = {0},
           totalHarga,
-          diskon[4] = {0},
+          diskon[5] = {0},
           totalHargaAkhir = 0,
           totalDiskon = 0,
           totalBayar,
           uangBayar,
           kembalian;
 
-    //mengambil waktu  // INI UNTUK MENGAMBIL DATA LOKAL WAKTU
+    //mengambil waktu
     time_t current_time;
     struct tm*local_time;
     current_time = time(NULL);
@@ -109,7 +108,7 @@ int main()
 
     //menampilkan field pilihan
     while (1){
-        printf("\n\nMasukkan pilihan yang anda inginkan: ");
+        printf("\n\nMasukkan pilihan yang anda inginkan: "); // LOOPING UTAMA BISA DIBILANG INFINITI LOOPING KARENA MENGULANG TERUS MENERUS
         scanf("%d", &pilihan);
 
         //kondisi untuk memilih barang yang akan dibeli
@@ -137,22 +136,23 @@ int main()
             printf("| No. |  Jumlah  |    Nama Barang    |    Harga    | Total Harga |   Diskon  |\n");
             printf("------------------------------------------------------------------------------\n");
             //perulangan untuk rekap pesanan
-                for(int i = 0; i < jumlahProduk; i++){
+                int nomor_urut = 1;
+                for(int i = 0; i < jumlahProduk; i++){ // LOOPING  UNTUK MENAMPILKAN REKAP PEMESANAN
                     //menghitung total harga
                         totalHarga = produkDanHarga[i].harga * jumlahBeli[i];
 
                     if(jumlahBeli[i] > 0){
 
-                        //menghitung diskon // KONDISI IF UNTUK MENGHITUNG DISKON
-                        if(jumlahBeli[i] < 3){ // JIKA MEMBLEI KURANG DARI 3 TIDAK MENDAPATKAN DISKON
+                        //menghitung diskon //KONDISI UNTUK DISKON
+                        if(jumlahBeli[i] < 3){ // MEMBELI KURANG DARI 3 ITEM TIDAK DAPAT DISKON
                             diskon[i] = 0;
-                        } else if (jumlahBeli[i] >= 3 && jumlahBeli[i] < 5){ // JIKA MEMBELI LEBIH DARI 3 ITEM DAN KURANG DARI 5 ITEM DISKON 10%
+                        } else if (jumlahBeli[i] >= 3 && jumlahBeli[i] < 5){ // MEMBELI LEBIH DARI 3 DAN KURANG DARI 5 ITEM 10% DISKON
                             diskon[i] = totalHarga * 0.10;
-                        } else if (jumlahBeli[i] >= 5){ // JIKA MEMBELI LEBIH DARI 5 ITEM MENDAPATKAN 15% DISKON
+                        } else if (jumlahBeli[i] >= 5){ // MEMBELI LEBIH DARI 5 ITEM MENDAPATKAN 15% DISKON
                             diskon[i] = totalHarga * 0.15;
                         }
                         //print barang yang dibeli
-                        printf("|  %-2d |     %-2d   |   %-13s   |  Rp.%-7.0f |  Rp.%-6.0f  | Rp.%-7.0f|\n", i + 1, jumlahBeli[i],
+                        printf("|  %-2d |     %-2d   |   %-13s   |  Rp.%-7.0f |  Rp.%-6.0f  | Rp.%-7.0f|\n", nomor_urut++, jumlahBeli[i],
                                produkDanHarga[i].produk, produkDanHarga[i].harga, totalHarga, diskon[i], no_barang++);
                     }
                     totalHargaAkhir += hargaAkhir[i];
@@ -215,7 +215,7 @@ int main()
             break;
 
         //opsi reset pilihan
-        } else if (pilihan == 55){
+        } else if (pilihan == 55){ // LOOP UNTUK MERESET PILIHAN
             for(int i = 0; i < jumlahProduk; i++){
                 pilihan = 0;
                 jumlahBeli[i] = 0;
