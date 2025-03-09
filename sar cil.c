@@ -17,7 +17,7 @@ void displayMenu(struct Produk produkDanHarga[], int jumlahProduk){
     printf("-----------------------------------------------------\n");
     //print array produk dan harga
         for(int i = 0; i < jumlahProduk; i++){
-            printf("|  %-2d |    %-19s 4   | Rp.%-12.0f |\n", i + 1, produkDanHarga[i].produk, produkDanHarga[i].harga);
+            printf("|  %-2d |    %-19s    | Rp.%-12.0f |\n", i + 1, produkDanHarga[i].produk, produkDanHarga[i].harga);
         }
      printf("=====================================================\n");
      printf("\n  99. Struk Pembayaran");
@@ -28,19 +28,17 @@ void displayMenu(struct Produk produkDanHarga[], int jumlahProduk){
 }
 
 //fungsi untuk mengurutkan data pesanan dari jumlah yang terbanyak
-void sortPesanan(struct Produk produkDanHarga[], int jumlahProduk, int jumlahBeli[]) {
-    for (int i = 0; i < jumlahProduk - 1; i++) {
-        for (int j = 0; j < jumlahProduk - i - 1; j++) {
-            if (jumlahBeli[j] > jumlahBeli[j + 1]) { // Ubah kondisi dari "<" menjadi ">"
-                // Tukar jumlah beli
+void sortPesanan(struct Produk produkDanHarga[], int jumlahProduk, int jumlahBeli[]){
+    for(int i = 0; i < jumlahProduk - 1; i++){
+        for(int j = 0; j < jumlahProduk - i - 1; j++){
+            if(jumlahBeli[j] < jumlahBeli[j + 1]){
                 int tempQty = jumlahBeli[j];
-                jumlahBeli[j] = jumlahBeli[j + 1];
-                jumlahBeli[j + 1] = tempQty;
+                    jumlahBeli[j] = jumlahBeli[j + 1];
+                    jumlahBeli[j + 1] = tempQty;
 
-                // Tukar data produk
                 struct Produk temp = produkDanHarga[j];
-                produkDanHarga[j] = produkDanHarga[j + 1];
-                produkDanHarga[j + 1] = temp;
+                       produkDanHarga[j] = produkDanHarga[j + 1];
+                       produkDanHarga[j + 1] = temp;
             }
         }
     }
@@ -60,24 +58,25 @@ int generateStrukID(){
 
 int main()
 {
-    //array untuk produk dan harga
+    //array untuk produk dan harga    // ARRAY UNTUK MENYIMPAN DATA BARANG
     struct Produk produkDanHarga[]={
-        {"Pulpen", 3000},
+        {"Buku Tulis", 5000},
         {"Pensil", 2000},
         {"Penghapus", 1000},
-        {"Stempel", 4000},
+        {"Penggaris", 1000},
+        {"Bujur Sangkar", 500},
     };
 
     int jumlahProduk = sizeof(produkDanHarga)/sizeof(produkDanHarga[0]),
         jumlah,
-        jumlahBeli[4] = {0},
+        jumlahBeli[5] = {0},
         pilihan,
         strukID = generateStrukID(),
         no_barang = 0;
 
-    float hargaAkhir[4] = {0},
+    float hargaAkhir[5] = {0},
           totalHarga,
-          diskon[4] = {0},
+          diskon[5] = {0},
           totalHargaAkhir = 0,
           totalDiskon = 0,
           totalBayar,
@@ -143,12 +142,12 @@ int main()
 
                     if(jumlahBeli[i] > 0){
 
-                        //menghitung diskon
-                        if(jumlahBeli[i] < 3){
+                        //menghitung diskon //KONDISI UNTUK DISKON
+                        if(jumlahBeli[i] < 3){ // MEMBELI KURANG DARI 3 ITEM TIDAK DAPAT DISKON
                             diskon[i] = 0;
-                        } else if (jumlahBeli[i] >= 3 && jumlahBeli[i] < 5){
+                        } else if (jumlahBeli[i] >= 3 && jumlahBeli[i] < 5){ // MEMBELI LEBIH DARI 3 DAN KURANG DARI 5 ITEM 10% DISKON
                             diskon[i] = totalHarga * 0.10;
-                        } else if (jumlahBeli[i] >= 5){
+                        } else if (jumlahBeli[i] >= 5){ // MEMBELI LEBIH DARI 5 ITEM MENDAPATKAN 15% DISKON
                             diskon[i] = totalHarga * 0.15;
                         }
                         //print barang yang dibeli
