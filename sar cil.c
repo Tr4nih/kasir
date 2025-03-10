@@ -3,15 +3,15 @@
 #include <time.h>
 
 //deklarasi variabel array
-struct Produk{
+struct Produk{ // struk itu didefiniskan oleh pengguna termasuk tipe data
     char produk[50];
     float harga;
 };
 
 //tampilan menu
-void displayMenu(struct Produk produkDanHarga[], int jumlahProduk){
-    printf("            Selamat Datang di Toko SKENSA            \n");
-    printf("      Silahkan Pilih Barang yang Anda Inginkan :     \n");
+void displayMenu(struct Produk produkDanHarga[], int jumlahProduk){ // fuction display menu
+    printf("Selamat Datang di Toko SKENSA \n");
+    printf("Silahkan Pilih Barang yang Anda Inginkan :\n");
     printf("=====================================================\n");
     printf("| No. |        Nama Barang        |      Harga      |\n");
     printf("-----------------------------------------------------\n");
@@ -45,7 +45,7 @@ void sortPesanan(struct Produk produkDanHarga[], int jumlahProduk, int jumlahBel
 }
 
 //membuat id struk
-int generateStrukID(){
+int generateStrukID(){ // ini termasuk tipe data atau fuction
     time_t current_time;
     time (&current_time);
 
@@ -112,7 +112,7 @@ int main()
         scanf("%d", &pilihan);
 
         //kondisi untuk memilih barang yang akan dibeli
-        if(pilihan >= 1 && pilihan <= jumlahProduk){
+        if(pilihan >= 1 && pilihan <= jumlahProduk){  // INI TERMASUK KONDISI BAGIAN PEMILIHAN BARANG
             //print untuk input user
             printf("\n [%d] Pembelian barang %s", pilihan, produkDanHarga[pilihan-1].produk);
             printf("\n     Jumlah: ");
@@ -127,11 +127,11 @@ int main()
             continue;
 
             //opsi struk
-        } else if (pilihan == 99){
+        } else if (pilihan == 99){ // KONDISI UNTUK MENGECEK STRUK
             //bubble sort
             sortPesanan(produkDanHarga, jumlahProduk, jumlahBeli);
 
-            printf("\n                             Rekap Pesanan Barang                           \n");
+            printf("\nRekap Pesanan Barang\n");
             printf("==============================================================================\n");
             printf("| No. |  Jumlah  |    Nama Barang    |    Harga    | Total Harga |   Diskon  |\n");
             printf("------------------------------------------------------------------------------\n");
@@ -164,13 +164,13 @@ int main()
                 printf("\n     Total Bayar  :  Rp.%.0f", totalBayar);
                 printf("\n\n==============================================================================\n");
 
-                while(1){
+                while(1){  // looping
                     //uang bayar
                     printf("Masukkan uang bayar: Rp.");
                     scanf("%f", &uangBayar);
 
                     //menghitung kembalian
-                    if(uangBayar >= totalBayar){
+                    if(uangBayar >= totalBayar){ // PERCABANGAN jika uang kurang
                         kembalian = uangBayar - totalBayar;
                         printf("\n Kembalian : Rp.%.0f\n", kembalian);
                         break;
@@ -187,7 +187,7 @@ int main()
                 fprintf(fp, "|                 Jl. HOS Cokroainoto No. 84 Denpasar               |\n");
                 fprintf(fp, "|                          Telp. 0816285791                          |\n");
                 fprintf(fp, "|                                Bali                                |\n");
-                fprintf(fp, "|   ID Struk: %-55d|\n", strukID);
+                fprintf(fp, "| ID Struk: %-55d|\n", strukID);
                 fprintf(fp, "======================================================================\n");
                 fprintf(fp, "|      Nama Barang      |    Harga    |   Total Harga   |   Diskon   |\n");
                 fprintf(fp, "----------------------------------------------------------------------\n");
@@ -214,8 +214,8 @@ int main()
             break;
 
         //opsi reset pilihan
-        } else if (pilihan == 55){ // LOOP UNTUK MERESET PILIHAN
-            for(int i = 0; i < jumlahProduk; i++){
+        } else if (pilihan == 55){ // kondisi untuk reset pilihan
+            for(int i = 0; i < jumlahProduk; i++){ // LOOP UNTUK MERESET PILIHAN
                 pilihan = 0;
                 jumlahBeli[i] = 0;
                 hargaAkhir[i] = 0;
@@ -227,7 +227,7 @@ int main()
             continue;
 
          //opsi keluar
-        } else if (pilihan == 00){
+        } else if (pilihan == 00){ // KONDISI UNTUK KELUAR DARI PROGRAM
             printf("exiting...");
             exit(0);
         } else {
