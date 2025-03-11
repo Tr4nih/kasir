@@ -8,6 +8,15 @@ struct Produk{ // struk itu didefiniskan oleh pengguna termasuk tipe data
     float harga;
 };
 
+void clearScreen() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+
+
 //tampilan menu
 void displayMenu(struct Produk produkDanHarga[], int jumlahProduk){ // fuction display menu
     printf("Selamat Datang di Toko SKENSA \n");
@@ -28,31 +37,35 @@ void displayMenu(struct Produk produkDanHarga[], int jumlahProduk){ // fuction d
 }
 
 //fungsi untuk mengurutkan data pesanan dari jumlah yang terbanyak
-void sortPesanan(struct Produk produkDanHarga[], int jumlahProduk, int jumlahBeli[]){ //INI TERMASUK BUBBLESORT UNTUK MENGURUTKAN PESANAN TERMASUK LOOPING JUGA
-    for(int i = 0; i < jumlahProduk - 1; i++){
-        for(int j = 0; j < jumlahProduk - i - 1; j++){
-            if(jumlahBeli[j] < jumlahBeli[j + 1]){
-                int tempQty = jumlahBeli[j];
-                    jumlahBeli[j] = jumlahBeli[j + 1];
-                    jumlahBeli[j + 1] = tempQty;
+void sortPesanan(struct Produk produkDanHarga[], int jumlahProduk, int jumlahBeli[]){
+        for(int i = 0; i < jumlahProduk - 1; i++){
+            for(int j = 0; j < jumlahProduk - i - 1; j++){
+                if(jumlahBeli[j] < jumlahBeli[j + 1]){
 
-                struct Produk temp = produkDanHarga[j];
-                       produkDanHarga[j] = produkDanHarga[j + 1];
-                       produkDanHarga[j + 1] = temp;
+                    int temQty = jumlahBeli[j];
+                    jumlahBeli[j] = jumlahBeli[j + 1];
+                    jumlahBeli[j + 1] = temQty;
+
+
+                    struct Produk temp = produkDanHarga[j];
+                    produkDanHarga[j]  = produkDanHarga[j + 1];
+                    produkDanHarga[j + 1] = temp;
+                }
             }
         }
-    }
 }
 
 //membuat id struk
-int generateStrukID(){ // ini termasuk tipe data atau fuction
+int generateStrukID(){
     time_t current_time;
     time (&current_time);
+
 
     int randNum = rand()%10000;
     int strukID = randNum + (int)current_time;
 
     return strukID;
+
 }
 
 
@@ -128,7 +141,8 @@ int main()
 
             //opsi struk
         } else if (pilihan == 99){ // KONDISI UNTUK MENGECEK STRUK
-            //bubble sort
+            //bubble sortclearScreen;
+              clearScreen();
             sortPesanan(produkDanHarga, jumlahProduk, jumlahBeli);
 
             printf("\nRekap Pesanan Barang\n");
@@ -140,15 +154,16 @@ int main()
                     //menghitung total harga
                         totalHarga = produkDanHarga[i].harga * jumlahBeli[i];
 
-                    if(jumlahBeli[i] > 0){
+                  if(jumlahBeli[i] > 0){
 
                         //menghitung diskon //KONDISI UNTUK DISKON
-                        if(jumlahBeli[i] < 3){ // MEMBELI KURANG DARI 3 ITEM TIDAK DAPAT DISKON
+                        if(jumlahBeli[i] < 3){
                             diskon[i] = 0;
-                        } else if (jumlahBeli[i] >= 3 && jumlahBeli[i] < 5){ // MEMBELI LEBIH DARI 3 DAN KURANG DARI 5 ITEM 10% DISKON
+                        }else if(jumlahBeli[i] >= 3 && jumlahBeli[i] < 5){
                             diskon[i] = totalHarga * 0.10;
-                        } else if (jumlahBeli[i] >= 5){ // MEMBELI LEBIH DARI 5 ITEM MENDAPATKAN 15% DISKON
+                        }else if (jumlahBeli[i] > 5){
                             diskon[i] = totalHarga * 0.15;
+
                         }
                         //print barang yang dibeli
                         printf("|  %-2d |     %-2d   |   %-13s   |  Rp.%-7.0f |  Rp.%-6.0f  | Rp.%-7.0f|\n", i + 1, jumlahBeli[i],
